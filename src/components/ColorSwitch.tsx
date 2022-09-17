@@ -1,22 +1,31 @@
+//@ts-nocheck
+
 import React from 'react';
-import {
-    useColorMode,
-    useColorModeValue,
-    IconButton,
-    IconButtonProps,
-} from '@chakra-ui/react';
+import { useColorMode, useColorModeValue, IconButton } from '@chakra-ui/react';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const ColorSwitch = () => {
     const { toggleColorMode } = useColorMode();
 
     return (
-        <IconButton
-            aria-label="Toggle Theme"
-            colorScheme={useColorModeValue('purple', 'orange')}
-            icon={useColorModeValue(<FaMoon />, <FaSun />)}
-            onClick={toggleColorMode}
-        />
+        <AnimatePresence exitBeforeEnter initial={false}>
+            <motion.div
+                style={{ display: 'inline-block' }}
+                key={useColorModeValue('light', 'dark')}
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+            >
+                <IconButton
+                    aria-label="Toggle theme"
+                    colorScheme={useColorModeValue('purple', 'orange')}
+                    icon={useColorModeValue(<FaMoon />, <FaSun />)}
+                    onClick={toggleColorMode}
+                ></IconButton>
+            </motion.div>
+        </AnimatePresence>
     );
 };
 

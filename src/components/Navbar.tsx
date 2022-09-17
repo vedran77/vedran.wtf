@@ -25,15 +25,19 @@ type LinkItemProps = {
     children: JSX.Element;
 };
 
-const LinkItem = ({ href, path, children }: LinkItemProps) => {
-    const active: boolean = path === href;
-    const inactiveColor: string = useColorModeValue(
-        'gray200',
-        'whiteAlpha.900'
-    );
+const LinkItem = ({ href, path, target, children, ...props }) => {
+    const active = path === href;
+    const inactiveColor = useColorModeValue('gray200', 'whiteAlpha.900');
     return (
-        <NextLink href={href}>
-            <Link p={2} bg={active ? '#202023' : inactiveColor}>
+        <NextLink href={href} passHref scroll={false}>
+            <Link
+                p={2}
+                bg={active ? 'grassTeal' : undefined}
+                color={active ? '#202023' : inactiveColor}
+                target={target}
+                _focus={{ boxShadow: 'none' }}
+                {...props}
+            >
                 {children}
             </Link>
         </NextLink>
@@ -47,7 +51,7 @@ const Navbar = props => {
             position="fixed"
             as="nav"
             w="100%"
-            bg={useColorModeValue('#ffffff40', '#20202380')}
+            bg={useColorModeValue('#ffffff', '#202023')}
             css={{ backdropFilter: 'blur(10px)' }}
             zIndex={2}
             {...props}
@@ -75,9 +79,6 @@ const Navbar = props => {
                 >
                     <LinkItem href="/works" path={path}>
                         <>Works</>
-                    </LinkItem>
-                    <LinkItem href="/posts" path={path}>
-                        <>Posts</>
                     </LinkItem>
                 </Stack>
                 <Box flex={1} align="right">

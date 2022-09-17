@@ -1,4 +1,7 @@
+//@ts-nocheck
+
 import { ChakraProvider } from '@chakra-ui/react';
+import { AnimatePresence } from 'framer-motion';
 
 import Layout from '../layout/';
 import theme from '../util/Theme';
@@ -13,7 +16,9 @@ const Website = ({ Component, pageProps, router }: Props) => {
         <ChakraProvider theme={theme}>
             <Fonts />
             <Layout router={router}>
-                <Component {...pageProps} key={router.route} />
+                <AnimatePresence exitBeforeEnter initial>
+                    <Component {...pageProps} key={router.route} />
+                </AnimatePresence>
             </Layout>
         </ChakraProvider>
     );
